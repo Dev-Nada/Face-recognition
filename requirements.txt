@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+python-multipart
+pydantic[email]
+opencv-python
+numpy
+insightface
+onnxruntime
+scikit-image
