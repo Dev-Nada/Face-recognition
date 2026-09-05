@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Face Recognition Attendance System</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div id="auth-screen" class="screen active">
+    <div class="auth-card">
+      
+      <div class="auth-tabs">
+        <button id="tab-login-btn" class="tab-btn active" onclick="switchAuthTab('login')">Login</button>
+        <button id="tab-register-btn" class="tab-btn" onclick="switchAuthTab('register')">Register</button>
+      </div>
+
+      <div id="login-section" class="auth-content active">
+        <div class="split-view">
+          
+          <div class="form-side">
+            <h3>Standard Login</h3>
+            <form id="login-form" onsubmit="handleStandardLogin(event)">
+              <div class="input-group">
+                <label>Employee ID / Email / Name</label>
+                <input type="text" id="login-identifier" placeholder="Enter ID, Email or Name" required>
+              </div>
+              <button type="submit" class="primary-btn">Sign In</button>
+            </form>
+          </div>
+
+          <div class="divider"><span>OR</span></div>
+
+          <div class="face-side">
+            <h3>Face Recognition Login</h3>
+            <div class="method-selector">
+              <button class="method-btn active" id="btn-camera-mode" onclick="setFaceMethod('camera')">📷 Live Camera</button>
+              <button class="method-btn" id="btn-upload-mode" onclick="setFaceMethod('upload')">📁 Upload Image</button>
+            </div>
+
+            <div id="face-camera-box" class="media-box">
+              <video id="login-video" autoplay playsinline></video>
+              <button type="button" class="action-btn" onclick="captureAndLogin()">Capture & Login</button>
+            </div>
+
+            <div id="face-upload-box" class="media-box hidden">
+              <input type="file" id="login-file-input" accept="image/*">
+              <button type="button" class="action-btn" onclick="uploadAndLogin()">Login with Photo</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="register-section" class="auth-content">
+        <div class="register-container">
+          <h3>Create New Employee Account</h3>
+          
+          <div id="reg-step-1">
+            <div class="form-grid">
+              <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" id="reg-name" placeholder="John Doe" required>
+              </div>
+              <div class="input-group">
+                <label>Age</label>
+                <input type="number" id="reg-age" placeholder="28" required>
+              </div>
+              <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="reg-email" placeholder="john@example.com" required>
+              </div>
+              <div class="input-group">
+                <label>City</label>
+                <input type="text" id="reg-city" placeholder="Cairo" required>
+              </div>
+            </div>
+            <button type="button" class="primary-btn full-width" onclick="proceedToFaceRegistration()">Confirm & Next</button>
+          </div>
+
+          <div id="reg-step-2" class="hidden">
+            <h4>Capture Face Embedding</h4>
+            <div class="method-selector">
+              <button class="method-btn active" id="btn-reg-camera" onclick="setRegFaceMethod('camera')">📷 Live Camera</button>
+              <button class="method-btn" id="btn-reg-upload" onclick="setRegFaceMethod('upload')">📁 Upload Image</button>
+            </div>
+
+            <div id="reg-camera-box" class="media-box">
+              <video id="reg-video" autoplay playsinline></video>
+              <button type="button" class="action-btn" onclick="submitRegistrationWithCamera()">Complete Registration</button>
+            </div>
+
+            <div id="reg-upload-box" class="media-box hidden">
+              <input type="file" id="reg-file-input" accept="image/*">
+              <button type="button" class="action-btn" onclick="submitRegistrationWithFile()">Complete Registration</button>
+            </div>
+            
+            <button type="button" class="secondary-btn" onclick="backToStep1()">Back</button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="dashboard-screen" class="screen">
+    <div class="dashboard-wrapper">
+      
+      <div class="profile-card">
+        <div class="card-header">
+          <div class="avatar-circle">👤</div>
+          <h2 id="emp-name">Employee Name</h2>
+          <span class="badge" id="emp-id-badge">ID: #---</span>
+        </div>
+
+        <div class="card-body">
+          <div class="info-row">
+            <span>Email:</span> <strong id="emp-email">---</strong>
+          </div>
+          <div class="info-row">
+            <span>City:</span> <strong id="emp-city">---</strong>
+          </div>
+          <div class="info-row">
+            <span>Age:</span> <strong id="emp-age">---</strong>
+          </div>
+          <div class="info-row">
+            <span>Registered:</span> <strong id="emp-created">---</strong>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button id="check-in-btn" class="status-btn active-green" onclick="handleCheckIn()">
+            Check In
+          </button>
+          <button id="check-out-btn" class="status-btn danger-red" onclick="handleCheckOut()">
+            Check Out & Logout
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
